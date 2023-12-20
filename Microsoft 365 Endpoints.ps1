@@ -1,14 +1,15 @@
 <#
 System requirements
-PSVersion                      7.3.1
-PSEdition                      Core
-GitCommitId                    7.3.1
-PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0…}
-PSRemotingProtocolVersion      2.3
-SerializationVersion           1.1.0.1
-WSManStackVersion              3.0  
+PSVersion: 5.1.19041.3803
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.19041.3803
+BuildVersion: 10.0.19041.3803
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
 
-About Script : Template for Ps-7 Scripts
+About Script : 
 Author : Fardin Barashi
 Title : Microsoft 365 Endpoints checker
 Description : The Office 365 IP Address and URL web service assists users in better identifying and distinguishing Office 365 network traffic, making it easier to assess, configure, and stay updated on changes. This REST-based web service replaces the previously downloadable XML files, which were phased out on October 2, 2018  This script checks after which ip-adresses that M365 Endpoints is needed. 
@@ -51,6 +52,7 @@ Try
  $EndpointSets = Invoke-RestMethod -Uri ($uri) -Verbose
          If ( $EndpointSets -Eq $Null  ) 
           { # Start If, $EndpointSets is empty or null
+            Write-host ""
             Get-Date -Format "yyyy/MM/dd HH:mm:ss"
             Write-Host "ERROR on $Section" -ForegroundColor Red
             Write-Host "$EndpointSets is empty or null" -ForegroundColor Red
@@ -60,29 +62,52 @@ Try
           } # End If, $EndpointSets is empty or null
           Else
           { # Start Else, $EndpointSets is Not empty or null
+            Write-host ""
             Get-Date -Format "yyyy/MM/dd HH:mm:ss"
             Write-Host $Section... "100%" -ForegroundColor Green
-            
+
             # Optimize
+            Write-host ""
+            Write-host "-----------"
+            Write-host ""
+            Write-Host "Getting all the Optimize Endpoints" 
             $Optimize = $endpointSets | Where-Object { $_.category -eq "Optimize" }
             $OptimizeIpsv4 = $Optimize.ips | Where-Object { ($_).contains(".") } | Sort-Object -Unique     
-            
+            Write-Host $OptimizeIpsv4
+
+            Write-host ""
+            Write-Host "Saving all the Optimize Endpoints to a textfile" 
+            $optimizeIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsoft Optimize Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
+
             # Allow
+            Write-host ""
+            Write-host "-----------"
+            Write-host ""
+            Write-Host "Getting all the Allow Endpoints" 
             $Allow = $endpointSets | Where-Object { $_.category -eq "Allow" }
             $AllowIpsv4 = $Allow.ips | Where-Object { ($_).contains(".") } | Sort-Object -Unique
+            Write-Host $AllowIpsv4
+
+            Write-host ""
+            Write-Host "Saving all the Allow Endpoints to a textfile"            
+            $AllowIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsoft Allow Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
 
             # Default
+            Write-host ""
+            Write-host "-----------"
+            Write-host ""
+            Write-Host "Getting all the Default Endpoints" 
             $Default = $endpointSets | Where-Object { $_.category -eq "Default" }
             $DefaultIpsv4 = $Allow.ips | Where-Object { ($_).contains(".") } | Sort-Object -Unique
-
-            Write-Host $OptimizeIpsv4
-            Write-Host $AllowIpsv4
             Write-Host $DefaultIpsv4
+            
+            Write-host ""
+            Write-Host "Saving all the Default Endpoints to a textfile"            
+            $DefaultIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsoft Default Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
 
-            Write-Host "Saving ipadress to a files"
-            $optimizeIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsoft Optimize Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
-            $AllowIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsoft Allow Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
-            $DefaultIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsof Default Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
+            Write-host ""
+            Write-host "-----------"
+
           } # End Else, $EndpointSets is Not empty or null
 
  # Run Query

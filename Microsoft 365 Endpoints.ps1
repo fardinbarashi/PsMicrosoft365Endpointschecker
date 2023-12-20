@@ -1,14 +1,8 @@
 <#
 System requirements
-PSVersion                      7.3.1
-PSEdition                      Core
-GitCommitId                    7.3.1
-PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0…}
-PSRemotingProtocolVersion      2.3
-SerializationVersion           1.1.0.1
-WSManStackVersion              3.0  
+PSVersion                      5
 
-About Script : Template for Ps-7 Scripts
+About Script
 Author : Fardin Barashi
 Title : Microsoft 365 Endpoints checker
 Description : The Office 365 IP Address and URL web service assists users in better identifying and distinguishing Office 365 network traffic, making it easier to assess, configure, and stay updated on changes. This REST-based web service replaces the previously downloadable XML files, which were phased out on October 2, 2018. This script checks for the required IP addresses for M365 Endpoints.

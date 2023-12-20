@@ -62,13 +62,27 @@ Try
           { # Start Else, $EndpointSets is Not empty or null
             Get-Date -Format "yyyy/MM/dd HH:mm:ss"
             Write-Host $Section... "100%" -ForegroundColor Green
-            $Optimize = $endpointSets | Where-Object { $_.category -eq "Optimize" }
-            $optimizeIpsv4 = $Optimize.ips | Where-Object { ($_).contains(".") } | Sort-Object -Unique
             
-            Write-Host $optimizeIpsv4
+            # Optimize
+            $Optimize = $endpointSets | Where-Object { $_.category -eq "Optimize" }
+            $OptimizeIpsv4 = $Optimize.ips | Where-Object { ($_).contains(".") } | Sort-Object -Unique     
+            
+            # Allow
+            $Allow = $endpointSets | Where-Object { $_.category -eq "Allow" }
+            $AllowIpsv4 = $Allow.ips | Where-Object { ($_).contains(".") } | Sort-Object -Unique
 
-            Write-Host "Saving ipadress to a file $PSScriptRoot\Files\MicrosoftOptimizeEndpoints $LogFileDate.Txt"
-            $optimizeIpsv4 | out-file -FilePath "$PSScriptRoot\Files\MicrosoftOptimizeEndpoints $LogFileDate.Txt"
+            # Default
+            $Default = $endpointSets | Where-Object { $_.category -eq "Default" }
+            $DefaultIpsv4 = $Allow.ips | Where-Object { ($_).contains(".") } | Sort-Object -Unique
+
+            Write-Host $OptimizeIpsv4
+            Write-Host $AllowIpsv4
+            Write-Host $DefaultIpsv4
+
+            Write-Host "Saving ipadress to a files"
+            $optimizeIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsoft Optimize Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
+            $AllowIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsoft Allow Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
+            $DefaultIpsv4 | out-file -FilePath "$PSScriptRoot\Files\Microsof Default Endpoints $LogFileDate.Txt" -Verbose -Encoding utf8 -Force
           } # End Else, $EndpointSets is Not empty or null
 
  # Run Query

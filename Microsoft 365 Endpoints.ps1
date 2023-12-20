@@ -116,7 +116,7 @@ Try
 Catch
  { # Start Catch
   Get-Date -Format "yyyy/MM/dd HH:mm:ss"
-  Write-Host "ERROR on $Section1" -ForegroundColor Red
+  Write-Host "ERROR on $Section2" -ForegroundColor Red
   # Get-Errors
   Write-Warning $Error[0]
   Write-Warning $Error[0].CategoryInfo
@@ -171,7 +171,7 @@ Try
 Catch
  { # Start Catch
   Get-Date -Format "yyyy/MM/dd HH:mm:ss"
-  Write-Host "ERROR on $Section1" -ForegroundColor Red
+  Write-Host "ERROR on $Section3" -ForegroundColor Red
   # Get-Errors
   Write-Warning $Error[0]
   Write-Warning $Error[0].CategoryInfo
@@ -226,7 +226,7 @@ Try
 Catch
  { # Start Catch
   Get-Date -Format "yyyy/MM/dd HH:mm:ss"
-  Write-Host "ERROR on $Section1" -ForegroundColor Red
+  Write-Host "ERROR on $Section4" -ForegroundColor Red
   # Get-Errors
   Write-Warning $Error[0]
   Write-Warning $Error[0].CategoryInfo
